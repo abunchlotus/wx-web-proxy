@@ -98,6 +98,7 @@ async function chatReplyProcess(options) {
       else
         options2 = { ...lastContext };
     }
+    options2.stream = false
     const response = await api.sendMessage(message, {
       ...options2,
       onProgress: (partialResponse) => {
@@ -231,7 +232,7 @@ app.all("*", (_, res, next) => {
   next();
 });
 router.post("/chat-process", [auth, limiter], async (req, res) => {
-  // res.setHeader("Content-type", "application/octet-stream");
+  res.setHeader("Content-type", "application/json");
   try {
     const { prompt, options = {}, systemMessage, temperature, top_p } = req.body;
     let firstChunk = true;
@@ -243,7 +244,6 @@ router.post("/chat-process", [auth, limiter], async (req, res) => {
 ${JSON.stringify(chat)}`);
         firstChunk = false;
       },
-      stream: false,
       systemMessage,
       temperature,
       top_p
