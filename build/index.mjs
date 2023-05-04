@@ -100,10 +100,7 @@ async function chatReplyProcess(options) {
     }
     options2.stream = false
     const response = await api.sendMessage(message, {
-      ...options2,
-      onProgress: (partialResponse) => {
-        process2?.(partialResponse);
-      }
+      ...options2
     });
     return sendResponse({ type: "Success", data: response });
   } catch (error) {
@@ -236,22 +233,16 @@ router.post("/chat-process", [auth, limiter], async (req, res) => {
   try {
     const { prompt, options = {}, systemMessage, temperature, top_p } = req.body;
     let firstChunk = true;
-    await chatReplyProcess({
+    const response = await chatReplyProcess({
       message: prompt,
       lastContext: options,
-      process: (chat) => {
-        res.write(firstChunk ? JSON.stringify(chat) : `
-${JSON.stringify(chat)}`);
-        firstChunk = false;
-      },
       systemMessage,
       temperature,
       top_p
     });
+    res.send(response)
   } catch (error) {
     res.write(JSON.stringify(error));
-  } finally {
-    res.end();
   }
 });
 router.post("/config", auth, async (req, res) => {
