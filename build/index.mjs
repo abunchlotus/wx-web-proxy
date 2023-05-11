@@ -287,10 +287,9 @@ router.post('/phone', (req, res) => {
     },
   }).then((body) => {
     try {
-      console.error(body.json())
-      const data = body.json().data_list[0]
-      const phone = JSON.parse(data.json).data.phoneNumber
-      res.send({ status: "Success", message: "get phone number successfully", data: {"phone": phone} })
+      console.error(body)
+      const data = body.json()
+      res.send({ status: "Success", message: "get phone number successfully", data: {"phone": data} })
     } catch (error) {
       console.log(error)
       res.send({ status: "Fail", message: error.message, data: null })
