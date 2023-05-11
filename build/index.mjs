@@ -285,15 +285,16 @@ router.post('/phone', (req, res) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then( (resData) =>{
-    try {
-      const dataJson = resData.json().data_list[0]
-      const phoneNumber = JSON.parse(dataJson.json).data.phoneNumber
-      res.send({ status: "Success", message: "get phone number successfully", data: {"phoneNumber": phoneNumber} })
-    } catch (error) {
-      console.error(error)
-      res.send({ status: "Fail", message: error.message, data: null })
-    }
+  }).then( data => data.json())
+    .then( (resData) =>{
+      try {
+        const dataJson = resData.data_list[0]
+        const phoneNumber = JSON.parse(dataJson.json).data.phoneNumber
+        res.send({ status: "Success", message: "get phone number successfully", data: {"phoneNumber": phoneNumber} })
+      } catch (error) {
+        console.error(error)
+        res.send({ status: "Fail", message: error.message, data: null })
+      }
   }).catch((error) => {
     console.error(error)
     res.send({ status: "Fail", message: error.message, data: null })
