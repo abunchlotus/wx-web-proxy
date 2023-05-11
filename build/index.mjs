@@ -285,16 +285,16 @@ router.post('/phone', (req, res) => {
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((body) => {
-    try {
-      console.error(body)
-      const data = body.json()
-      res.send({ status: "Success", message: "get phone number successfully", data: {"phone": data} })
-    } catch (error) {
-      console.log(error)
-      res.send({ status: "Fail", message: error.message, data: null })
-    }
-  }).catch((error) => {
+  }).then( resData => resData.json())
+      .then((body) => {
+        try {
+          res.send({ status: "Success", message: "get phone number successfully", data: {"phone": body} })
+        } catch (error) {
+          console.log(error)
+          res.send({ status: "Fail", message: error.message, data: null })
+        }
+      })
+      .catch((error) => {
     console.error(error)
     res.send({ status: "Fail", message: error.message, data: null })
   })
