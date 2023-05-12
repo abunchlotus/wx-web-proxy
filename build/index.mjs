@@ -310,14 +310,11 @@ router.post('/account/getrole', (req, res) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    agent: new https.Agent({
-      rejectUnauthorized: false
-    }),
-    body: req.body
+    body: JSON.stringify(req.body)
   })
-    .then(resFrank => resFrank.json())
-    .then(jsonData => res.send(jsonData))
-    .catch(error => console.error(error));
+      .then(resFrank => resFrank.json())
+      .then(jsonData => res.send(jsonData))
+      .catch(error => res.send({ status: "Fail", message: error.message, data: null }))
 })
 router.post('/account/adduser', (req, res) => {
   const allUrl = baseUrl + "/account/adduser"
@@ -327,14 +324,11 @@ router.post('/account/adduser', (req, res) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    agent: new https.Agent({
-      rejectUnauthorized: false
-    }),
-    body: req.body
+    body: JSON.stringify(req.body)
   })
       .then(resFrank => resFrank.json())
       .then(jsonData => res.send(jsonData))
-      .catch(error => console.error(error));
+      .catch(error => res.send({ status: "Fail", message: error.message, data: null }));
 })
 router.post('/account/deleteuser', (req, res) => {
   const allUrl = baseUrl + "/account/deleteuser"
@@ -344,14 +338,11 @@ router.post('/account/deleteuser', (req, res) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    agent: new https.Agent({
-      rejectUnauthorized: false
-    }),
-    body: req.body
+    body: JSON.stringify(req.body)
   })
       .then(resFrank => resFrank.json())
       .then(jsonData => res.send(jsonData))
-      .catch(error => console.error(error));
+      .catch(error => res.send({ status: "Fail", message: error.message, data: null }));
 })
 
 app.use("", router);
