@@ -222,6 +222,7 @@ var app = express();
 var router = express.Router();
 app.use(express.static("public"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 app.all("*", (_, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "authorization, Content-Type");
@@ -300,6 +301,59 @@ router.post('/phone', (req, res) => {
     res.send({ status: "Fail", message: error.message, data: null })
   })
 });
+const baseUrl = "https://www.dqszlishuqiang.com:34571";
+router.post('/account/getrole', (req, res) => {
+  const allUrl = baseUrl + "/account/getrole"
+  fetch(allUrl, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    agent: new https.Agent({
+      rejectUnauthorized: false
+    }),
+    body: req.body
+  })
+    .then(resFrank => resFrank.json())
+    .then(jsonData => res.send(jsonData))
+    .catch(error => console.error(error));
+})
+router.post('/account/adduser', (req, res) => {
+  const allUrl = baseUrl + "/account/adduser"
+  fetch(allUrl, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    agent: new https.Agent({
+      rejectUnauthorized: false
+    }),
+    body: req.body
+  })
+      .then(resFrank => resFrank.json())
+      .then(jsonData => res.send(jsonData))
+      .catch(error => console.error(error));
+})
+router.post('/account/deleteuser', (req, res) => {
+  const allUrl = baseUrl + "/account/deleteuser"
+  fetch(allUrl, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    agent: new https.Agent({
+      rejectUnauthorized: false
+    }),
+    body: req.body
+  })
+      .then(resFrank => resFrank.json())
+      .then(jsonData => res.send(jsonData))
+      .catch(error => console.error(error));
+})
+
 app.use("", router);
 app.use("/api", router);
 app.set("trust proxy", 1);
