@@ -301,7 +301,7 @@ router.post('/phone', (req, res) => {
     res.send({ status: "Fail", message: error.message, data: null })
   })
 });
-const baseUrl = "https://www.dqszlishuqiang.com:34571";
+const baseUrl = "http://www.dqszlishuqiang.com:34571";
 router.post('/account/getrole', (req, res) => {
   const allUrl = baseUrl + "/account/getrole"
   fetch(allUrl, {
