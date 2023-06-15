@@ -302,6 +302,7 @@ router.post('/phone', (req, res) => {
   })
 });
 const baseUrl = "http://www.dqszlishuqiang.com:34571";
+const baseUrlChat = "http://www.dqszlishuqiang.com:34572";
 router.post('/account/getrole', (req, res) => {
   const allUrl = baseUrl + "/account/getrole"
   fetch(allUrl, {
@@ -314,7 +315,7 @@ router.post('/account/getrole', (req, res) => {
   })
       .then(resFrank => resFrank.json())
       .then(jsonData => res.send(jsonData))
-      .catch(error => res.send({ status: "Fail", message: error.message, data: null }))
+      .catch(error => { console.error(error); res.send({ status: "Fail", message: "get role failed", data: null })})
 })
 router.post('/account/adduser', (req, res) => {
   const allUrl = baseUrl + "/account/adduser"
@@ -328,7 +329,7 @@ router.post('/account/adduser', (req, res) => {
   })
       .then(resFrank => resFrank.json())
       .then(jsonData => res.send(jsonData))
-      .catch(error => res.send({ status: "Fail", message: error.message, data: null }));
+      .catch(error => { console.error(error); res.send({ status: "Fail", message: "add user failed", data: null })});
 })
 router.post('/account/deleteuser', (req, res) => {
   const allUrl = baseUrl + "/account/deleteuser"
@@ -342,7 +343,37 @@ router.post('/account/deleteuser', (req, res) => {
   })
       .then(resFrank => resFrank.json())
       .then(jsonData => res.send(jsonData))
-      .catch(error => res.send({ status: "Fail", message: error.message, data: null }));
+      .catch(error => { console.error(error); res.send({ status: "Fail", message: "delete user failed", data: null })});
+})
+
+router.post('/chat/set', (req, res) => {
+  const allUrl = baseUrlChat + "/chat/set"
+  fetch(allUrl, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body)
+  })
+      .then(resFrank => resFrank.json())
+      .then(jsonData => res.send(jsonData))
+      .catch(error => { console.error(error); res.send({ status: "Fail", message: "send failed", data: null })});
+})
+
+router.post('/chat/get', (req, res) => {
+  const allUrl = baseUrlChat + "/chat/get"
+  fetch(allUrl, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body)
+  })
+      .then(resFrank => resFrank.json())
+      .then(jsonData => res.send(jsonData))
+      .catch(error => { console.error(error); res.send({ status: "Fail", message: "get failed", data: null })});
 })
 
 app.use("", router);
