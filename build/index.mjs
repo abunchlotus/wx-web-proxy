@@ -348,11 +348,13 @@ router.post('/account/deleteuser', (req, res) => {
 
 router.post('/chat/set', (req, res) => {
   const allUrl = baseUrlChat + "/chat/set"
+  const OPENAI_API_KEY = Buffer.from(process.env.OPENAI_API_KEY, "base64").toString();
   fetch(allUrl, {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "Authorization": `Bearer ${OPENAI_API_KEY}`
     },
     body: JSON.stringify(req.body)
   })
